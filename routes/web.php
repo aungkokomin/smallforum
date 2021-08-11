@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::get('/posts',function(){
     $posts = Post::with('category','author')->get();
-    // ddd($posts->author);
+    // ddd($posts);
     return view('post',['posts' => $posts]);
 });
 
@@ -38,9 +38,9 @@ Route::get('/posts/{post:slug}',function(Post $post){
 
 
 Route::get('/category/{category:slug}',function(Category $category){
-    return view('sub_post',['posts'=>$category->post->load(['category','author'])]);
+    return view('post',['posts'=>$category->post->load(['category','author'])]);
 });
 
 Route::get('/author/{author:username}',function(User $author){
-    return view('sub_post',['posts'=>$author->post->load(['category','author'])]);
+    return view('post',['posts'=>$author->post->load(['category','author'])]);
 });
