@@ -130,3 +130,6 @@
         </div>
     </body>
 </html>
+<x-layout content="hello there">
+
+</x-layout>

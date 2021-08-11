@@ -19,8 +19,7 @@ use Symfony\Component\Translation\Dumper\YamlFileDumper;
 */
 
 Route::get('/', function () {
-    $matter = YamlFrontMatter::parseFile(resource_path('posts/my-third-post.html'));
-    dd($matter);
+    return view('post');
 });
 
 Route::get('/posts',function(){
