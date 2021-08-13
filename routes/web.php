@@ -19,28 +19,20 @@ use Symfony\Component\Translation\Dumper\YamlFileDumper;
 */
 
 Route::get('/', function () {
-    return view('post');
-});
-
-Route::get('/posts',function(){
     $posts = Post::with('category','author')->get();
-    // ddd($posts);
-    return view('post',['posts' => $posts]);
+    // ddd($categories);
+    return view('post',['posts' => $posts, 'categories' =>Category::all()]);
 });
 
-Route::get('/post/view',function(){
-    return view('viewpost');
-});
-
-Route::get('/posts/{post:slug}',function(Post $post){
+Route::get('/post/{post:slug}',function(Post $post){
     return view('viewpost',['post'=>$post]);
 });
 
 
 Route::get('/category/{category:slug}',function(Category $category){
-    return view('post',['posts'=>$category->post->load(['category','author'])]);
+    return view('post',['posts'=>$category->post->load(['category','author']) , 'categories' => Category::all()]);
 });
 
 Route::get('/author/{author:username}',function(User $author){
-    return view('post',['posts'=>$author->post->load(['category','author'])]);
+    return view('post',['posts'=>$author->post->load(['category','author']) , 'categories' => Category::all()]);
 });
