@@ -4,7 +4,7 @@
     </h1>
 
     <h2 class="inline-flex mt-2">
-        By Lary Laracore 
+        By Lary Laracore
         <img src="/images/lary-head.svg" alt="Head of Lary the mascot">
     </h2>
 
@@ -15,36 +15,26 @@
 
     <div class="space-y-2 lg:space-y-0 lg:space-x-4 mt-8">
         <!--  Category -->
-        <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl">
-            
-            {{-- Category dropdown is built with Alpine JS code. x-data is the value receiving. 
-                x-show is hiding HTML element. It is one of Alpine JS function.
-                @click act same like Javascript's OnClick function.
-                The process is "reveal" set as "false" in default. If you click Category button, "reveal" is turning to opposite of current value (which is "true").
+        <div class="relative lg:inline-flex bg-gray-100 rounded-xl">
 
-                --}}
-            
-            <div x-data="{reveal: false}" @click.away = "reveal = false"> {{-- @click.away is when u click on other part of page dropdown box will disappear.  --}}
-                <button 
-                    @click = "reveal = ! reveal " 
-                    class="py-2 pl-3 pr-9 text-sm font-semibold text-left inline-flex">
-                    Category
-                    <svg class="transform -rotate-90 absolute pointer-events-none" style="right: 12px;" width="22" height="22" viewBox="0 0 22 22">
-                        <g fill="none" fill-rule="evenodd">
-                        <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z">
-                        </path>
-                        <path fill="#222"
-                                d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
-                        </g>
-                    </svg> 
-                </button> 
-                <div x-show="reveal" class="py-2 absolute bg-gray-100 mt-2 rounded-xl">
+            <x-dropdown>
+                <x-slot name="trigger">
+                    <button class="py-2 pl-3 pr-9 text-sm font-semibold text-left flex w-full lg:inline-flex lg:w-32">
+                        {{-- {{isset($CurrentCat) ? $CurrentCat->name : 'Category'}} --}} Category
+
+                        <x-icon name="down-arrow" class="absolute pointer-event-none" style="right: 12px"/>
+
+                    </button>
+                </x-slot>
+                    <x-dropdown-item href="/" :active="request()->routeIs('home')">All</x-dropdown-item>
                     @foreach($categories as $category)
-                    <a href="/category/{{$category->slug}}" class="block text-left px-3 text-sm leading-5 hover:bg-blue-300 focus:bg-blue-300 hover:text-white focus:text-white">{{$category->name}}</a>
+                    <x-dropdown-item
+                    href="/category/{{$category->slug}}" :active="request()->is('category/'. $category->slug)">
+                        {{$category->name}}
+                    </x-dropdown-item>
                     @endforeach
-                </div>
-            </div>
-            
+            </x-dropdown>
+
             {{-- <select class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold">
                 <option value="category" disabled selected>Category
                 </option>

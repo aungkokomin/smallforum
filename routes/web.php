@@ -21,8 +21,8 @@ use Symfony\Component\Translation\Dumper\YamlFileDumper;
 Route::get('/', function () {
     $posts = Post::with('category','author')->get();
     // ddd($categories);
-    return view('post',['posts' => $posts, 'categories' =>Category::all()]);
-});
+    return view('post',['posts' => $posts, 'categories' => Category::all()]);
+})->name('home');
 
 Route::get('/post/{post:slug}',function(Post $post){
     return view('viewpost',['post'=>$post]);
@@ -30,9 +30,9 @@ Route::get('/post/{post:slug}',function(Post $post){
 
 
 Route::get('/category/{category:slug}',function(Category $category){
-    return view('post',['posts'=>$category->post->load(['category','author']) , 'categories' => Category::all()]);
+    return view('post',['posts'=>$category->post->load(['category','author']) , 'categories' => Category::all()])->name('category');
 });
 
 Route::get('/author/{author:username}',function(User $author){
-    return view('post',['posts'=>$author->post->load(['category','author']) , 'categories' => Category::all()]);
+    return view('post',['posts'=>$author->post->load(['category','author']) , 'categories' => Category::all()])->name('author');
 });
