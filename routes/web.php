@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
@@ -18,15 +19,9 @@ use Symfony\Component\Translation\Dumper\YamlFileDumper;
 |
 */
 
-Route::get('/', function () {
-    $posts = Post::with('category','author')->get();
-    // ddd($categories);
-    return view('post',['posts' => $posts, 'categories' => Category::all()]);
-})->name('home');
+Route::get('/', [PostController::class,'index'])->name('home');
 
-Route::get('/post/{post:slug}',function(Post $post){
-    return view('viewpost',['post'=>$post]);
-});
+Route::get('/post/{post:slug}',[PostController::class,'show']);
 
 
 Route::get('/category/{category:slug}',function(Category $category){
