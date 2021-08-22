@@ -22,14 +22,16 @@ class Post extends Model
     }
 
     public function scopeFilter($query, array $filters){          //Place where query scope for some like 'search' write here
-        $query->when($filters['search'] ?? false ,
-            //This is arrow function of "function ($query, $search){};"
-            fn ($query, $search) => $query->where('title','like', '%'. $search.'%')->orWhere('body','like', '%'. $search.'%')
+        $query->when($filters['search'] ?? false , fn ($query, $search) =>
+            $query->where( fn($query) =>
+                $query->where('title','like', '%'. $search.'%')
+                    ->orWhere('body','like', '%'. $search.'%')
+            )
         );
 
-        $query->when($filters['category'] ?? false ,
-            //This is arrow function of "function ($query, $search){};"
-            fn ($query, $category) => $query->whereHas('category', fn ($query) => $query->where('slug',$category)
+        $query->when($filters['category'] ?? false , fn ($query, $category) =>
+            $query->whereHas('category', fn ($query) =>
+                $query->where('slug',$category)
             )
         );
 
@@ -38,6 +40,8 @@ class Post extends Model
             fn ($query, $author) => $query->whereHas('author', fn ($query) => $query->where('username',$author)
             )
         );
+
+
     }
 
 }
